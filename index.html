@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Hot Beans Web</title>
+
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    </head>
+
+    <script>
+
+        (function(){
+
+            window.onload = function() {
+
+                openPage(0);
+
+            }
+
+        })(document.body);
+        
+        function manageCheckboxLimit(el) {
+            
+            if(el.tagName === 'DIV') {
+
+                let inputs = el.querySelectorAll("input");
+                let checkboxes = Array.from(inputs).filter(input => input.type == "checkbox");
+
+                if(checkboxes.length <= 0)
+                    return;
+                
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+
+            } else if(el.tagName === 'INPUT' && el.type === 'checkbox') {
+
+                setTimeout(() => {
+                    el.checked = true;
+                }, 100);
+
+            }
+
+        }
+
+        function openModalFor(id) {
+
+            if(typeof(this.lastModal) === "undefined")
+                this.lastModal = null; /* Store as variable in mem, curr function */
+
+            let el = document.getElementById(id);
+
+            if(!el)
+                return;
+            
+            let modals = document.getElementsByClassName("modal");
+
+            Array.from(modals).forEach(modal => {
+
+                if(modal.classList.contains("show")) {
+                    $(modal).modal("hide");
+                    this.lastModal = modal;
+                }
+            });
+            
+            $(el).modal("show");
+            
+            let closeBtn = (el.getElementsByClassName("back-btn") ? el.getElementsByClassName("back-btn")[0] : null);
+
+            if(closeBtn)
+                $(closeBtn).on("click", () => {
+                    $(el).modal("hide");
+                    $(this.lastModal).modal("show");
+                });
+
+        }
+
+        function openParentModal(el) {
+
+            if(!el)
+                return;
+            
+            let parent = el.parentNode;
+            let modal = (parent ? parent.querySelector(".modal") : null);
+
+            if(!modal)
+                return;
+            
+            $(modal).modal("show");
+            
+        }
+        
+        function openPage(index) {
+
+            let pages = document.getElementsByClassName("pages")[0].querySelectorAll("[id='page']");
+            let num = 0;
+
+            Array.from(pages).forEach(page => {
+
+                if(num == index) {
+                    
+                    page.classList.remove("d-none");
+                    
+                    $(page).fadeOut(0);
+                    $(page).fadeIn("slow");
+
+                } 
+                else if(!page.classList.contains("d-none")) {
+                        
+                        page.classList.add("d-none");
+                        
+                        $(page).fadeIn(0);
+                        $(page).fadeOut("slow");
+                        
+                }
+                
+                num++;
+
+            });
+            
+        }
+
+        function emailTo(email) {
+
+            if(!email)
+                return;
+            
+            window.open(`mailto: ${encodeURIComponent(email)}?subject=Hot Beans Web&body=Sent from Website`, "_blank");
+
+        }
+
+    </script>
+
+    <body class="bg-dark text-white">
+
+        <nav class="navbar sticky-top navbar-dark bg-dark">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffCanvas" aria-controls="sidebarOffCanvas" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+
+        <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebarOffCanvas" style="max-width: 300px; width:100%;">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">HotBeansWeb</h5>
+                <button type="button" class="btn-close" data-bs-toggle="offcanvas" data-bs-dismiss="sidebarOffCanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body" tabindex="-1" role="tablist">
+                
+                <button class="btn btn-primary p-2 mt-2 w-100" onclick="openPage(0);">
+                    Home
+                </button>
+                
+                <button class="btn btn-primary p-2 mt-2 w-100" onclick="openPage(1);">
+                    Courses
+                </button>
+
+                <button class="btn btn-primary p-2 mt-2 w-100" onclick="openPage(2);">
+                    Jobs
+                </button>
+
+                <button class="btn btn-primary p-2 mt-2 w-100" onclick="openPage(3);">
+                    Team
+                </button>
+
+                <button class="btn btn-primary p-2 mt-2 w-100" onclick="openPage(4);">
+                    Join Us
+                </button>
+
+            </div>
+        </div>
+
+        <div class="pages container">
+            
+            <div style="max-width: 100%; height: auto; display: flex; justify-content: center;">
+                <img src="images/logo.png" style="max-width: 100%; height: auto;">
+            </div>
+            
+            <div class="d-none" style="padding-top: 10vh;" id="page"> <!-- Home -->
+                <div style="text-align: center;">
+                    <h2 style="text-decoration: underline;">Hot Beans Web</h2>
+                    <h4>Spicing up the web, one site at a time</h4>
+                </div>
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <button class="btn btn-primary m-2 p-3 w-75" onclick="openPage(1);">Courses</button>
+                        <button class="btn btn-primary m-2 p-3 w-75" onclick="openPage(2);">Jobs</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <button class="btn btn-primary m-2 p-3 w-75" onclick="openPage(3);">Team</button>
+                        <button class="btn btn-primary m-2 p-3 w-75" onclick="openPage(4);">Join Us</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-none" id="page"> <!-- Courses -->
+                <div style="text-align: center;">
+                    <h2 style="text-decoration: underline;">Courses</h2>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card p-4 m-4">
+                                <h2>W3Schools</h2>
+                                <div style="max-width: 100%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/W3Schools.png" style="max-width: 100%; height: auto;">
+                                </div>
+                                <button class="btn btn-dark text-white p-2 m-4" onclick="window.open('https://www.w3schools.com', '_blank');">Website</button>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card p-4 m-4">
+                                <h2>KnowItAllNinja</h2>
+                                <div style="max-width: 100%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/KIAN.jpg" style="max-width: 100%; height: auto;">
+                                </div>
+                                <button class="btn btn-dark text-white p-2 m-4" onclick="window.open('https://www.knowitallninja.com/', '_blank');">Website</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card p-4 m-4">
+                                <h2>Udemy</h2>
+                                <div style="max-width: 100%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/udemy-logo.png" style="max-width: 100%; height: auto;">
+                                </div>
+                                <button class="btn btn-dark text-white p-2 m-4" onclick="window.open('https://www.udemy.com', '_blank');">Website</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-none" id="page"> <!-- Jobs -->
+                
+                <div style="text-align: center;">
+                    <h2 style="text-decoration: underline;">Jobs</h2>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="w-100">
+
+                        <div class="card p-4 text-white rounded m-4" style="background-color: rgba(0, 0, 0, 0.6)">
+
+                            <div class="position-absolute top-0 end-0 p-2">
+                                <i class="bi bi-code-slash"></i>
+                            </div>
+                            
+                            <h2 style="text-align: center;">
+                                Front-End Developer
+                            </h2>
+                            
+                            <button class="btn btn-dark m-2 rounded" onclick="openParentModal(this);">Requirements</button>
+
+                            <!-- Requirements Modal -->
+
+                            <div class="modal fade" tabindex="-1" aria-labelledby="Requirements" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content bg-dark text-white">
+                                        <div class="modal-header d-flex justify-content-center border-secondary">
+                                            <h1>Requirements</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        
+                                        <div class="modal-body d-flex justify-content-center">
+                                            <ul class="list-group w-100">
+                                                <li class="list-group-item bg-dark text-white" style="text-align: center;" onclick="openModalFor('HTML-ABOUT');">HTML</li>
+                                                <li class="list-group-item bg-dark text-white" style="text-align: center;" onclick="openModalFor('CSS-ABOUT');">CSS</li>
+                                                <li class="list-group-item bg-dark text-white" style="text-align: center;" onclick="openModalFor('JS-ABOUT');">JavaScript</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="modal-footer border-secondary">
+                                            <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                                <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card p-4 text-white rounded m-4" style="background-color: rgba(0, 0, 0, 0.6)">
+
+                            <div class="position-absolute top-0 end-0 p-2">
+                                <i class="bi bi-code-slash"></i>
+                            </div>
+                            
+                            <h2 style="text-align: center;">
+                                Back-End Developer
+                            </h2>
+                            
+                            <button class="btn btn-dark m-2 rounded" onclick="openParentModal(this);">Requirements</button>
+
+                            <!-- Requirements Modal -->
+
+                            <div class="modal fade" tabindex="-1" aria-labelledby="Requirements" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content bg-dark text-white">
+                                        <div class="modal-header d-flex justify-content-center border-secondary">
+                                            <h1>Requirements</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body d-flex justify-content-center">
+                                            <ul class="list-group w-100">
+                                                <li class="list-group-item bg-dark text-white" style="text-align: center;" onclick="openModalFor('PYTHON-ABOUT');">Python</li>
+                                                <li class="list-group-item bg-dark text-white" style="text-align: center;" onclick="openModalFor('JS-ABOUT');">JavaScript</li>
+                                                <li class="list-group-item bg-dark text-white" style="text-align: center;" onclick="openModalFor('RUBY-ABOUT');">Ruby</li>
+                                                <li class="list-group-item bg-dark text-white" style="text-align: center;" onclick="openModalFor('PHP-ABOUT');">PHP</li>
+                                                <li class="list-group-item bg-dark text-white" style="text-align: center;" onclick="openModalFor('JAVA-ABOUT');">Java</li>
+                                            </ul>
+                                        </div>
+                                        <div class="modal-footer border-secondary">
+                                            <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                                <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card p-4 text-white rounded m-4" style="background-color: rgba(0, 0, 0, 0.6)">
+
+                            <div class="position-absolute top-0 end-0 p-2">
+                                <i class="bi bi-code-slash"></i>
+                            </div>
+                            
+                            <h2 style="text-align: center;">
+                                UI/UX Developer
+                            </h2>
+                            
+                            <button class="btn btn-dark m-2 rounded" onclick="openParentModal(this);">Requirements</button>
+
+                            <!-- Requirements Modal -->
+
+                            <div class="modal fade" tabindex="-1" aria-labelledby="Requirements" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content bg-dark text-white">
+                                        <div class="modal-header d-flex justify-content-center border-secondary">
+                                            <h1>Requirements</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body d-flex justify-content-center">
+                                            <ul class="list-group w-100">
+                                                <li class="list-group-item bg-dark text-white" style="text-align: center;" onclick="openModalFor('HTML-ABOUT');">HTML</li>
+                                                <li class="list-group-item bg-dark text-white" style="text-align: center;" onclick="openModalFor('CSS-ABOUT');">CSS</li>
+                                                <li class="list-group-item bg-dark text-white" style="text-align: center;" onclick="openModalFor('JS-ABOUT');">JavaScript</li>
+                                                <li class="list-group-item bg-dark text-white" style="text-align: center;" onclick="openModalFor('RD-ABOUT');">Responsive Design</li>
+                                                <li class="list-group-item bg-dark text-white" style="text-align: center;" onclick="openModalFor('UI-UX-P-ABOUT');">UI/UX Principles</li>
+                                            </ul>
+                                        </div>
+                                        <div class="modal-footer border-secondary">
+                                            <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                                <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="modal fade" tabindex="-1" aria-labelledby="About HTML" aria-hidden="true" id="HTML-ABOUT">
+                    
+                    <div class="modal-dialog">
+
+                        <div class="modal-content bg-dark text-white">
+
+                            <div class="modal-header d-flex justify-content-center border-secondary">
+                                <h1 class="mt-4">About HTML</h1>
+                                <div class="position-absolute top-0 end-0 p-2">
+                                    <button type="button" class="back-btn btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-arrow-left-circle-fill"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="modal-body">
+                                <h4 style="text-align: center;">What is HTML?</h4>
+                                <p>HTML (Hypertext Markup Language): HTML is the standard markup language for creating the structure and content of web pages. It defines the elements and their placement on a webpage.</p>
+                            </div>
+
+                            <div class="modal-footer border-secondary">
+                                <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal fade" tabindex="-1" aria-labelledby="About CSS" aria-hidden="true" id="CSS-ABOUT">
+                    
+                    <div class="modal-dialog">
+
+                        <div class="modal-content bg-dark text-white">
+
+                            <div class="modal-header d-flex justify-content-center border-secondary">
+                                <h1 class="mt-4">About CSS</h1>
+                                <div class="position-absolute top-0 end-0 p-2">
+                                    <button type="button" class="back-btn btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-arrow-left-circle-fill"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="modal-body">
+                                <h4 style="text-align: center;">What is CSS?</h4>
+                                <p>CSS (Cascading Style Sheets): CSS is used to define the visual appearance and layout of HTML elements. It allows you to control the colors, fonts, spacing, and positioning of elements on a webpage.</p>
+                            </div>
+
+                            <div class="modal-footer border-secondary">
+                                <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal fade" tabindex="-1" aria-labelledby="About JavaScript" aria-hidden="true" id="JS-ABOUT">
+                    
+                    <div class="modal-dialog">
+
+                        <div class="modal-content bg-dark text-white">
+
+                            <div class="modal-header d-flex justify-content-center border-secondary">
+                                <h1 class="mt-4">About JS</h1>
+                                <div class="position-absolute top-0 end-0 p-2">
+                                    <button type="button" class="back-btn btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-arrow-left-circle-fill"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="modal-body">
+                                <h4 style="text-align: center;">What is JS?</h4>
+                                <p>JavaScript: JavaScript is a programming language that adds interactivity and behavior to web pages. It enables you to create dynamic and responsive features such as animations, form validation, and interactive elements.</p>
+                            </div>
+
+                            <div class="modal-footer border-secondary">
+                                <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal fade" tabindex="-1" aria-labelledby="About Python" aria-hidden="true" id="PYTHON-ABOUT">
+                    
+                    <div class="modal-dialog">
+
+                        <div class="modal-content bg-dark text-white">
+
+                            <div class="modal-header d-flex justify-content-center border-secondary">
+                                <h1 class="mt-4">About Python</h1>
+                                <div class="position-absolute top-0 end-0 p-2">
+                                    <button type="button" class="back-btn btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-arrow-left-circle-fill"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="modal-body">
+                                <h4 style="text-align: center;">What is Python?</h4>
+                                <p>Python is a high-level, interpreted, and general-purpose programming language. It was created by Guido van Rossum and first released in 1991. Python emphasizes code readability and simplicity, making it an excellent choice for beginners as well as experienced developers. Its design philosophy focuses on clear and concise syntax, which promotes readability and reduces the cost of program maintenance.</p>
+                                <br>
+                                <p>Python is known for its versatility and can be used in various domains, including web development, data analysis, scientific computing, artificial intelligence, machine learning, automation, and more. It has a large and active community, which has contributed to an extensive ecosystem of libraries and frameworks that make development tasks more efficient.</p>
+                            </div>
+
+                            <div class="modal-footer border-secondary">
+                                <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal fade" tabindex="-1" aria-labelledby="About Ruby" aria-hidden="true" id="RUBY-ABOUT">
+                    
+                    <div class="modal-dialog modal-dialog-scrollable">
+
+                        <div class="modal-content bg-dark text-white">
+
+                            <div class="modal-header d-flex justify-content-center border-secondary">
+                                <h1 class="mt-4">About Ruby</h1>
+                                <div class="position-absolute top-0 end-0 p-2">
+                                    <button type="button" class="back-btn btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-arrow-left-circle-fill"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="modal-body">
+                                <h4 style="text-align: center;">What is Ruby?</h4>
+                                <p>Ruby is a dynamic, object-oriented programming language that was designed with simplicity and productivity in mind. It was created by Yukihiro Matsumoto (also known as Matz) and first released in 1995. Ruby gained popularity for its elegant syntax, readability, and focus on developer happiness.</p>
+                                <h6>Some key features of Ruby include:</h6>
+                                <ul class="list-group p-2 m-2">
+                                    <li class="list-group-item m-2 rounded">
+                                        Object-oriented programming: Ruby follows an object-oriented programming (OOP) paradigm, where everything in Ruby is an object. This allows for encapsulation, inheritance, and polymorphism, making it easier to manage and manipulate data.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Clean and expressive syntax: Ruby's syntax is designed to be intuitive and easy to read. It emphasizes natural language-like constructs, enabling developers to write clear and concise code.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Dynamic typing: Ruby is dynamically typed, meaning variable types are determined at runtime. This allows for flexibility and quick prototyping since variables can hold different types of data throughout the program.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Metaprogramming capabilities: Ruby has strong support for metaprogramming, which means you can write code that can modify itself or generate new code at runtime. This allows for powerful abstractions and code reusability.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        RubyGems and Rails: RubyGems is Ruby's package manager, which allows developers to easily install and manage libraries and frameworks. Ruby on Rails, often referred to as Rails, is a popular web application framework built with Ruby. It follows the MVC (Model-View-Controller) architecture and provides a comprehensive set of tools and conventions for building web applications.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Community and ecosystem: Ruby has a vibrant and supportive community, with numerous resources, libraries, and frameworks available. The community promotes open-source contributions and has developed a rich ecosystem that enhances Ruby's capabilities for various domains, including web development, automation, testing, and more.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="modal-footer border-secondary">
+                                <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal fade" tabindex="-1" aria-labelledby="About PHP" aria-hidden="true" id="PHP-ABOUT">
+                    
+                    <div class="modal-dialog modal-dialog-scrollable">
+
+                        <div class="modal-content bg-dark text-white">
+
+                            <div class="modal-header d-flex justify-content-center border-secondary">
+                                <h1 class="mt-4">About PHP</h1>
+                                <div class="position-absolute top-0 end-0 p-2">
+                                    <button type="button" class="back-btn btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-arrow-left-circle-fill"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="modal-body">
+                                <h4 style="text-align: center;">What is PHP?</h4>
+                                <p>PHP (Hypertext Preprocessor) is a server-side scripting language that is widely used for web development. It was originally created by Rasmus Lerdorf in 1994 and has since become one of the most popular languages for building dynamic websites and web applications.</p>
+                                <h6>Here are some key features and characteristics of PHP:</h6>
+                                <ul class="list-group p-2 m-2">
+                                    <li class="list-group-item m-2 rounded">
+                                        Server-side scripting: PHP is primarily designed for server-side scripting, which means the PHP code is executed on the server and generates dynamic HTML content to be sent to the client's browser. This allows developers to create web pages that can dynamically interact with databases, process forms, handle file uploads, and more.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Easy to learn: PHP is known for its simplicity and ease of learning. Its syntax is similar to C, Java, and other programming languages, making it accessible to beginners. The large and supportive PHP community provides extensive documentation and resources for learning and troubleshooting.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Embedded in HTML: PHP code is typically embedded directly within HTML markup, using special tags such as <?php ... ?> or <?= ... ?>. This seamless integration allows developers to mix PHP code with HTML, making it easy to generate dynamic content and interact with databases.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Platform independence: PHP is platform-independent, meaning it can run on various operating systems, including Windows, macOS, Linux, and many others. This cross-platform compatibility makes it highly flexible and accessible.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Large and active community: PHP has a vast and active community of developers who contribute to its growth and continuously develop new libraries, frameworks, and tools. Popular PHP frameworks like Laravel, Symfony, and CodeIgniter provide robust and scalable solutions for building web applications.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Database integration: PHP has built-in support for working with various databases, including MySQL, PostgreSQL, Oracle, and SQLite. It allows developers to easily connect to databases, query data, and manage database transactions.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Content management systems: PHP powers many popular content management systems (CMS) like WordPress, Drupal, and Joomla. These CMS platforms provide pre-built functionalities and themes, making it easier to create and manage websites.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Rapid development: PHP's focus on simplicity and ease of use enables developers to build web applications quickly. Its extensive library of functions and frameworks accelerates development and reduces the amount of code required for common tasks.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="modal-footer border-secondary">
+                                <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal fade" tabindex="-1" aria-labelledby="About PHP" aria-hidden="true" id="JAVA-ABOUT">
+                    
+                    <div class="modal-dialog modal-dialog-scrollable">
+
+                        <div class="modal-content bg-dark text-white">
+
+                            <div class="modal-header d-flex justify-content-center border-secondary">
+                                <h1 class="mt-4">About Java</h1>
+                                <div class="position-absolute top-0 end-0 p-2">
+                                    <button type="button" class="back-btn btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-arrow-left-circle-fill"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="modal-body">
+                                <h4 style="text-align: center;">What is Java?</h4>
+                                <p>Java is a popular and widely-used programming language known for its versatility, portability, and robustness. It was created by James Gosling at Sun Microsystems (acquired by Oracle Corporation) and first released in 1995. Java's design philosophy focuses on "write once, run anywhere" (WORA), meaning that Java programs can run on any platform that has a Java Virtual Machine (JVM) installed, without the need for recompilation.</p>
+                                <h6>Here are some key features and characteristics of Java:</h6>
+                                <ul class="list-group p-2 m-2">
+                                    <li class="list-group-item m-2 rounded">
+                                        Object-oriented programming: Java is an object-oriented programming (OOP) language, which means it supports the concepts of classes, objects, inheritance, polymorphism, and encapsulation. This allows for modular and reusable code, making it easier to manage and maintain large-scale projects.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Platform independence: Java's bytecode, compiled from source code, is executed on the JVM, which acts as a virtual machine for running Java applications. This allows Java programs to run on different platforms, including Windows, macOS, Linux, and more, without requiring modifications to the code.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Strong standard library: Java comes with a comprehensive standard library, known as the Java Development Kit (JDK), which provides a wide range of classes and functions for common programming tasks. It includes utilities for input/output operations, networking, database connectivity, multithreading, and more.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Memory management: Java manages memory automatically through its garbage collection mechanism. Developers do not need to explicitly allocate or deallocate memory, as Java handles memory management, reducing the risk of memory leaks and freeing developers from low-level memory management concerns.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Exception handling: Java provides robust exception handling mechanisms, allowing developers to handle and recover from runtime errors gracefully. This helps improve the stability and reliability of Java applications.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Rich ecosystem and community: Java has a vast ecosystem with a large community of developers and a rich set of libraries, frameworks, and tools. Popular Java frameworks like Spring, Hibernate, and Apache Struts provide powerful solutions for building enterprise-level applications.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Scalability and performance: Java's architecture and features, such as Just-In-Time (JIT) compilation, make it efficient and capable of delivering high performance. Java applications can handle heavy workloads and scale well, making it suitable for both small and large-scale projects.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Security: Java emphasizes security and provides features like sandboxing, secure class loading, and cryptography APIs, making it a preferred choice for developing secure applications.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="modal-footer border-secondary">
+                                <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal fade" tabindex="-1" aria-labelledby="About PHP" aria-hidden="true" id="RD-ABOUT">
+                    
+                    <div class="modal-dialog modal-dialog-scrollable">
+
+                        <div class="modal-content bg-dark text-white">
+
+                            <div class="modal-header d-flex justify-content-center border-secondary">
+                                <h1 class="mt-4">About Responsive Design</h1>
+                                <div class="position-absolute top-0 end-0 p-2">
+                                    <button type="button" class="back-btn btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-arrow-left-circle-fill"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="modal-body">
+                                <h4 style="text-align: center;">What is Responsive Design?</h4>
+                                <p>Responsive design refers to an approach in web development and design that aims to create websites and applications that adapt and provide an optimal viewing experience across various devices and screen sizes. The goal is to ensure that the content and layout of a website or application adjust seamlessly to accommodate different resolutions, orientations, and interaction methods.</p>
+                                <h6>The key principles and techniques of responsive design include:</h6>
+                                <ul class="list-group p-2 m-2">
+                                    <li class="list-group-item m-2 rounded">
+                                        Fluid Grids: Instead of using fixed pixel-based layouts, responsive design employs fluid grids that allow content to resize proportionally based on the screen size. This ensures that elements adjust and rearrange themselves dynamically, maintaining the overall structure and readability of the page.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Flexible Images and Media: Responsive design incorporates techniques to make images and media elements adapt to different screen sizes. This can involve using CSS to control image dimensions and scaling or implementing techniques like responsive images or media queries to load different versions of media based on device capabilities.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Media Queries: Media queries are CSS rules that allow you to apply different styles based on specific conditions, such as screen size, device orientation, or resolution. By utilizing media queries, developers can create rules and styles that apply to different devices and adapt the layout and appearance accordingly.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Breakpoints: Breakpoints are specific points or ranges of screen sizes at which the design layout needs to change to accommodate the device. Designers and developers choose breakpoints strategically to ensure that the content is well-optimized for different breakpoints, such as mobile, tablet, and desktop.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Mobile-first Approach: The mobile-first approach is a design strategy that involves creating the initial design and layout for mobile devices and then progressively enhancing it for larger screens. This ensures that the essential content and functionality are prioritized for smaller screens and then enhanced for larger devices.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Usability and Interaction Considerations: Responsive design also takes into account user interaction patterns and touch-based navigation for mobile devices. It considers factors like touch target sizes, navigation menus, form inputs, and other user interactions to provide a smooth and user-friendly experience across different devices.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="modal-footer border-secondary">
+                                <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal fade" tabindex="-1" aria-labelledby="About PHP" aria-hidden="true" id="UI-UX-P-ABOUT">
+                    
+                    <div class="modal-dialog modal-dialog-scrollable">
+
+                        <div class="modal-content bg-dark text-white">
+
+                            <div class="modal-header d-flex justify-content-center border-secondary">
+                                <h1 class="mt-4">About UI/UX Principles</h1>
+                                <div class="position-absolute top-0 end-0 p-2">
+                                    <button type="button" class="back-btn btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-arrow-left-circle-fill"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="modal-body">
+                                <h4 style="text-align: center;">What are UI/UX Principles?</h4>
+                                <p>UI/UX (User Interface/User Experience) principles refer to a set of guidelines, best practices, and design concepts that aim to create interfaces that are visually appealing, intuitive to use, and provide a positive user experience. These principles help designers and developers create interfaces that meet the needs and expectations of users, resulting in interfaces that are effective, efficient, and enjoyable to interact with.</p>
+                                <h6>Here are some common UI/UX principles:</h6>
+                                <ul class="list-group p-2 m-2">
+                                    <li class="list-group-item m-2 rounded">
+                                        User-Centered Design: This principle emphasizes designing interfaces based on a deep understanding of the target users. It involves conducting user research, understanding their goals, needs, and behaviors, and incorporating that knowledge into the design process.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Consistency: Consistency in design elements, such as colors, typography, icons, and layout, creates a cohesive and familiar experience for users. Consistent design patterns help users understand how to interact with the interface and make it easier for them to navigate and accomplish tasks.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Simplicity: Simplicity in design means eliminating unnecessary complexity and clutter from the interface. Clear and concise visuals, minimalistic layouts, and intuitive interactions reduce cognitive load and make it easier for users to understand and use the interface.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Visibility and Feedback: Interfaces should provide clear visual cues and feedback to guide users and inform them about their actions and the system's response. Visual indicators, hover effects, animations, and error messages are examples of how interfaces can provide feedback to users.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Usability: Usability focuses on making interfaces easy to use and efficient in achieving user goals. The design should be intuitive, with logical information architecture and navigation. Usability testing and iterative design iterations help identify and address usability issues.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Accessibility: Interfaces should be inclusive and accessible to users with disabilities. Following accessibility standards and guidelines ensures that interfaces are perceivable, operable, and understandable for all users, regardless of their abilities.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Visual Hierarchy: Visual hierarchy helps guide users' attention and prioritize information on the interface. It involves using contrast, size, spacing, and color to emphasize important elements and create a clear flow of information.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Error Prevention and Handling: Interfaces should anticipate and prevent errors through clear instructions, validation, and error prevention techniques. When errors occur, the interface should provide helpful error messages and guidance to assist users in resolving the issues.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Aesthetics: Aesthetics play an essential role in UI/UX design. Well-chosen colors, visually pleasing layouts, appropriate typography, and visually appealing graphics contribute to a positive emotional response from users and enhance the overall experience.
+                                    </li>
+                                    <li class="list-group-item m-2 rounded">
+                                        Iterative Design and Testing: UI/UX design is an iterative process that involves continuous testing, feedback, and refinement. Designers should regularly gather user feedback, conduct usability testing, and make iterative improvements to the interface based on user insights.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="modal-footer border-secondary">
+                                <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="d-none" id="page"> <!-- Team -->
+                <div style="text-align: center;">
+                    <h2 style="text-decoration: underline;">Team</h2>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="card p-4 text-white rounded m-2" style="background-color: rgba(0, 0, 0, 0.6)">
+                                
+                                <h2 style="text-align: center;">Abid</h2>
+                                
+                                <div style="max-width: 100%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/People/Abid.png" style="max-width: 100%; height: auto;" class="rounded">
+                                </div>
+                                
+                                <div class="btn-group p-2" role="group">
+                                    <button class="btn btn-dark m-2 rounded" onclick="window.open('https://github.com/jakebloodstone', '_blank');"><i class="bi bi-github"></i></button>
+                                    <button class="btn btn-dark m-2 rounded" onclick="emailTo('19062998@students.ncclondon.ac.uk');"><i class="bi bi-envelope"></i></button>
+                                </div>
+                                
+                                <button class="btn btn-dark m-2 rounded" onclick="openParentModal(this);">About</button>
+
+                                <!-- About Modal -->
+
+                                <div class="modal fade" tabindex="-1" aria-labelledby="About" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content bg-dark text-white">
+                                            <div class="modal-header d-flex justify-content-center border-secondary">
+                                                <h1>Abid Hossain</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body d-flex justify-content-center">
+                                                <ul class="list-group w-100">
+                                                    <li class="list-group-item bg-dark text-white" style="text-align: center;">Graphics Designer</li>
+                                                    <li class="list-group-item bg-dark text-white" style="text-align: center;">UI Designer</li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-footer border-secondary">
+                                                <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                                    <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="card p-4 text-white rounded m-2" style="background-color: rgba(0, 0, 0, 0.6)">
+                                
+                                <h2 style="text-align: center;">Arsenii</h2>
+                                
+                                <div style="max-width: 100%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/People/Arsenii.png" style="max-width: 100%; height: auto;" class="rounded">
+                                </div>
+                                
+                                <div class="btn-group p-2" role="group">
+                                    <button class="btn btn-dark m-2 rounded" onclick="window.open('https://github.com/senyaGitHub', '_blank');"><i class="bi bi-github"></i></button>
+                                    <button class="btn btn-dark m-2 rounded" onclick="emailTo('akselivanov2005@gmail.com');"><i class="bi bi-envelope"></i></button>
+                                </div>
+                                
+                                <button class="btn btn-dark m-2 rounded" onclick="openParentModal(this);">About</button>
+
+                                <!-- About Modal -->
+
+                                <div class="modal fade" tabindex="-1" aria-labelledby="About" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content bg-dark text-white">
+                                            <div class="modal-header d-flex justify-content-center border-secondary">
+                                                <h1>Arsenii Selivanov</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body d-flex justify-content-center">
+                                                <ul class="list-group w-100">
+                                                    <li class="list-group-item bg-dark text-white" style="text-align: center;">Front End Developer</li>
+                                                    <li class="list-group-item bg-dark text-white" style="text-align: center;">Back End Developer</li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-footer border-secondary">
+                                                <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                                    <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="card p-4 text-white rounded m-2" style="background-color: rgba(0, 0, 0, 0.6)">
+                                
+                                <h2 style="text-align: center;">Charlie</h2>
+                                
+                                <div style="max-width: 100%; height: auto; display: flex; justify-content: center;">
+                                    <img src="images/People/Charlie.png" style="max-width: 100%; height: auto;" class="rounded">
+                                </div>
+                                
+                                <div class="btn-group p-2" role="group">
+                                    <button class="btn btn-dark m-2 rounded" onclick="window.open('https://github.com/CharlieCronin3', '_blank');"><i class="bi bi-github"></i></button>
+                                    <button class="btn btn-dark m-2 rounded" onclick="emailTo('CharlieCWebDev@gmail.com');"><i class="bi bi-envelope"></i></button>
+                                </div>
+                                
+                                <button class="btn btn-dark m-2 rounded" onclick="openParentModal(this);">About</button>
+
+                                <!-- About Modal -->
+
+                                <div class="modal fade" tabindex="-1" aria-labelledby="About" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content bg-dark text-white">
+                                            <div class="modal-header d-flex justify-content-center border-secondary">
+                                                <h1>Charlie Cronin</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body d-flex justify-content-center">
+                                                <ul class="list-group w-100">
+                                                    <li class="list-group-item bg-dark text-white" style="text-align: center;">Founder</li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-footer border-secondary">
+                                                <div style="max-width: 20%; height: auto; display: flex; justify-content: center;">
+                                                    <img src="images/logo.png" style="max-width: 100%; height: auto;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-none" id="page"> <!-- Join Us -->
+
+                <form action="javascript:void(0);">
+                    <div class="card p-4 text-white rounded m-4" style="background-color: rgba(0, 0, 0, 0.6)">
+                        <h2 style="text-align: center;">
+                            Registration
+                        </h2>
+                        
+                        <div class="d-flex justify-content-center mt-4">
+                            <label class="w-75 p-2"><h4>First Name</h4></label>
+                            <input class="form-control bg-dark text-white" type="text" placeholder="First Name">
+                        </div>
+                        
+                        <div class="d-flex justify-content-center mt-4">
+                            <label class="w-75 p-2"><h4>Last Name</h4></label>
+                            <input class="form-control bg-dark text-white" type="text" placeholder="Last Name">
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-4">
+                            <label class="w-75 p-2"><h4>Email</h4></label>
+                            <input class="form-control bg-dark text-white" type="email" placeholder="Email">
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-4">
+                            <label class="w-75 p-2"><h4>Phone Number</h4></label>
+                            <input class="form-control bg-dark text-white" type="number" placeholder="Email">
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-4">
+                            <label class="w-75 p-2"><h4>Password</h4></label>
+                            <input class="form-control bg-dark text-white" type="password" placeholder="Email">
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-4">
+                            <div class="input-group bottom-0 end-0 bg-dark rounded p-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text bg-dark text-white">Gender</div>
+                                </div>
+                                <div class="row" onclick="manageCheckboxLimit(this);">
+                                    <div class="col">
+                                        <div class="d-flex justify-content-center">
+                                            <label class="p-2">Male</label>
+                                            <input type="checkbox" onclick="manageCheckboxLimit(this);">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="d-flex justify-content-center">
+                                            <label class="p-2">Female</label>
+                                            <input type="checkbox" onclick="manageCheckboxLimit(this);">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="d-flex justify-content-center">
+                                            <label class="p-2">Other</label>
+                                            <input type="checkbox" onclick="manageCheckboxLimit(this);">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-secondary mt-4 w-25">Submit</button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+    </body>
+
+</html>
